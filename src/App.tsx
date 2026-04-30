@@ -1,5 +1,11 @@
+import { useState } from 'react'
 import './App.css'
 import profilePhoto from '../yous.jpeg'
+import pharmaDashboardImage from '../WhatsApp Image 2026-04-30 at 2.28.55 AM.jpeg'
+import salesDashboardImage from '../sales.png'
+import { ProjectAnalysisModal } from './components/ProjectAnalysisModal'
+import { ProjectCard } from './components/ProjectCard'
+import type { PortfolioProject } from './types/projectAnalysis'
 
 function App() {
   const person = {
@@ -21,34 +27,79 @@ function App() {
     { label: 'Experience', value: 'Lab + Data' },
   ] as const
 
-  const projects = [
+  const portfolioProjects: PortfolioProject[] = [
     {
+      id: 'sales-excel',
       title: 'Sales Data Analysis',
       subtitle: 'Excel dashboard + KPI tracking',
       description:
-        'Cleaned and analyzed sales data, built KPI views, and produced decision-ready insights with a dashboard-style layout.',
-      tags: ['Excel', 'Pivot Tables', 'Power Query'],
-      chart: { type: 'bar' as const, values: [18, 28, 22, 40, 34, 52] },
-      metrics: [
+        'Consolidated fragmented retail extracts into one KPI-ready model so regional performance could be compared on a single timeline.',
+      imageAlt: 'Sales analytics dashboard preview',
+      dashboardImageSrc: salesDashboardImage,
+      dashboardImageAlt: 'Sales analysis dashboard screenshot',
+      kpis: [
         { label: 'Records', value: '15K+' },
         { label: 'KPIs', value: '10' },
         { label: 'Accuracy', value: '97%' },
       ],
+      tools: ['Excel', 'Power Query', 'Pivot Tables'],
+      githubHref: 'https://github.com',
+      problem:
+        'Leadership received inconsistent Excel extracts from regions, with mismatched product keys and week boundaries, so nobody trusted a single source of truth for sales performance.',
+      analysisProcess:
+        'Joined and cleaned multi-sheet exports in Power Query, standardized date grains and product hierarchies, built pivot-driven KPI panels, and documented assumptions so refreshes stayed reproducible.',
+      keyInsights: [
+        'Revenue peaks in July indicating seasonal demand trends',
+        'Home & Garden category generates the highest revenue',
+        'Premium brand tier contributes the largest share of total revenue',
+        'Cairo shows the highest sales concentration among cities in sales',
+      ],
+      impact: [
+        'Established a single source of truth for weekly sales reporting.',
+        'Improved visibility of high-margin SKUs for better decision-making.',
+        'Reduced reporting inconsistencies across regions.',
+      ],
     },
     {
+      id: 'pharma-pbi',
       title: 'Pharmaceutical Data Analysis',
-      subtitle: 'Power BI report + DAX measures',
+      subtitle:
+        'Built a unified healthcare analytics layer across hospital sources to standardize operational reporting. 10+ Hospitals • 50K+ Records • 20+ Measures',
       description:
-        'Modeled data, created measures, and delivered an interactive report focusing on trends, performance, and quality-related insights.',
-      tags: ['Power BI', 'DAX', 'Data Modeling'],
-      chart: { type: 'line' as const, values: [12, 18, 16, 26, 22, 30, 36] },
-      metrics: [
+        'Built a governed Power BI reporting system that consolidated visit, patient-mix, and diagnosis-cost signals into one decision-ready view.',
+      imageAlt: 'Healthcare operations dashboard preview',
+      dashboardImageSrc: pharmaDashboardImage,
+      dashboardImageAlt: 'Pharmaceutical analysis dashboard screenshot',
+      kpis: [
         { label: 'Tables', value: '8' },
         { label: 'Measures', value: '14' },
         { label: 'Refresh', value: 'Daily' },
       ],
+      tools: ['Power BI', 'DAX'],
+      githubHref: 'https://github.com',
+      problem:
+        'Hospital operations data was fragmented across departments and file formats, with no unified reporting layer. Teams could not consistently track patient distribution or isolate diagnosis-level cost drivers, which slowed weekly planning and created conflicting interpretations.',
+      analysisProcess:
+        'Cleaned and standardized multi-source extracts, modeled a star schema in Power BI, and authored reusable DAX measures for visits, cohorts, and diagnosis cost attribution. Delivered an interactive dashboard with consistent filters for hospital, specialty, and period comparisons.',
+      keyInsights: [
+        'Cairo hospital records the highest number of patient visits compared to other hospitals, indicating higher demand concentration',
+        'Elderly patients represent the largest share (~41%) of total visits, highlighting increased pressure on age-related healthcare services',
+        'Cardiovascular and hypertension-related diagnoses drive the highest cost per day, contributing most to total treatment expenses',
+        'Patient visits vary significantly across hospitals, suggesting uneven resource utilization and potential service imbalance',
+      ],
+      impact: [
+        'Improved reporting clarity through a single, trusted weekly view of visits, distribution, and diagnosis cost.',
+        'Enabled faster, better operational decisions on staffing, capacity allocation, and priority service lines.',
+        'Reduced reporting inconsistencies by replacing disconnected departmental cuts with standardized metric definitions.',
+      ],
     },
-  ] as const
+  ]
+
+  const [analysisProjectId, setAnalysisProjectId] = useState<string | null>(null)
+  const analysisProject =
+    analysisProjectId === null
+      ? null
+      : (portfolioProjects.find((p) => p.id === analysisProjectId) ?? null)
 
   const skillGroups = [
     {
@@ -218,32 +269,19 @@ function App() {
           </div>
 
           <div className="grid grid--2">
-            {projects.map((p) => (
-              <article key={p.title} className="card project">
-                <div className="project__head">
-                  <div>
-                    <div className="project__title">{p.title}</div>
-                    <div className="project__subtitle">{p.subtitle}</div>
-                  </div>
-                  <MiniChart type={p.chart.type} values={p.chart.values} />
-                </div>
-                <p className="project__desc">{p.description}</p>
-                <div className="project__metrics">
-                  {p.metrics.map((m) => (
-                    <div key={m.label} className="metric">
-                      <div className="metric__label">{m.label}</div>
-                      <div className="metric__value">{m.value}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="tags" aria-label="Tools used">
-                  {p.tags.map((t) => (
-                    <span key={t} className="tag">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </article>
+            {portfolioProjects.map((p) => (
+              <ProjectCard
+                key={p.id}
+                title={p.title}
+                description={p.description}
+                imageSrc={p.imageSrc}
+                imageAlt={p.imageAlt}
+                kpis={p.kpis}
+                tools={p.tools}
+                githubHref={p.githubHref}
+                onViewAnalysis={() => setAnalysisProjectId(p.id)}
+                theme="dark"
+              />
             ))}
           </div>
         </section>
@@ -376,6 +414,12 @@ function App() {
         </section>
       </main>
 
+      <ProjectAnalysisModal
+        isOpen={analysisProjectId !== null}
+        project={analysisProject}
+        onClose={() => setAnalysisProjectId(null)}
+      />
+
       <footer className="footer">
         <div className="footer__inner">
           <span>{person.name}</span>
@@ -386,71 +430,6 @@ function App() {
         </div>
       </footer>
     </div>
-  )
-}
-
-function MiniChart({
-  type,
-  values,
-}: {
-  type: 'bar' | 'line'
-  values: readonly number[]
-}) {
-  const w = 140
-  const h = 44
-  const pad = 4
-  const max = Math.max(...values, 1)
-
-  if (type === 'bar') {
-    const gap = 4
-    const bars = values.length
-    const bw = Math.max(6, (w - pad * 2 - gap * (bars - 1)) / bars)
-    return (
-      <svg className="minichart" viewBox={`0 0 ${w} ${h}`} role="img" aria-label="Mini bar chart">
-        <defs>
-          <linearGradient id="g" x1="0" x2="1">
-            <stop offset="0" stopColor="var(--accent)" stopOpacity="0.95" />
-            <stop offset="1" stopColor="var(--accent2)" stopOpacity="0.85" />
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width={w} height={h} rx="10" fill="var(--chartBg)" />
-        {values.map((v, i) => {
-          const bh = Math.max(2, ((h - pad * 2) * v) / max)
-          const x = pad + i * (bw + gap)
-          const y = h - pad - bh
-          return <rect key={i} x={x} y={y} width={bw} height={bh} rx="4" fill="url(#g)" />
-        })}
-      </svg>
-    )
-  }
-
-  const step = (w - pad * 2) / Math.max(values.length - 1, 1)
-  const points = values
-    .map((v, i) => {
-      const x = pad + i * step
-      const y = h - pad - ((h - pad * 2) * v) / max
-      return `${x.toFixed(2)},${y.toFixed(2)}`
-    })
-    .join(' ')
-
-  const area = `${pad},${h - pad} ${points} ${w - pad},${h - pad}`
-  return (
-    <svg className="minichart" viewBox={`0 0 ${w} ${h}`} role="img" aria-label="Mini line chart">
-      <defs>
-        <linearGradient id="a" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="var(--accent)" stopOpacity="0.28" />
-          <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width={w} height={h} rx="10" fill="var(--chartBg)" />
-      <polyline points={points} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-      <polygon points={area} fill="url(#a)" />
-      {values.map((v, i) => {
-        const cx = pad + i * step
-        const cy = h - pad - ((h - pad * 2) * v) / max
-        return <circle key={i} cx={cx} cy={cy} r="2.2" fill="var(--accent2)" />
-      })}
-    </svg>
   )
 }
 
