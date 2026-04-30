@@ -283,7 +283,6 @@ function App() {
                 title={p.title}
                 description={p.description}
                 imageSrc={p.imageSrc}
-                imageGrid={p.dashboardImages}
                 imageAlt={p.imageAlt}
                 kpis={p.kpis}
                 tools={p.tools}
