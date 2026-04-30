@@ -263,6 +263,24 @@
   transition: width 200ms ease;
 }
 
+.analysis-modal__imageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 10px;
+  transition: width 200ms ease;
+}
+
+.analysis-modal__gridImg {
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 8px;
+}
+
 .analysis-modal__placeholder {
   min-height: 200px;
   display: grid;
@@ -305,10 +323,15 @@
   .analysis-modal__body {
     padding: 16px 16px 20px;
   }
+
+  .analysis-modal__imageGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .analysis-modal__img {
+  .analysis-modal__img,
+  .analysis-modal__imageGrid {
     transition: none;
   }
 }

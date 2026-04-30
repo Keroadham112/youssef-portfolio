@@ -1,5 +1,5 @@
 import './ProjectCard.css'
-import type { ProjectKpi } from '../types/projectAnalysis'
+import type { ProjectImage, ProjectKpi } from '../types/projectAnalysis'
 
 export type { ProjectKpi } from '../types/projectAnalysis'
 
@@ -9,6 +9,7 @@ export type ProjectCardProps = {
   description: string
   /** Dashboard or report screenshot URL (or imported static asset). */
   imageSrc?: string
+  imageGrid?: readonly ProjectImage[]
   imageAlt: string
   kpis: readonly ProjectKpi[]
   tools: readonly string[]
@@ -49,6 +50,7 @@ export function ProjectCard({
   title,
   description,
   imageSrc,
+  imageGrid,
   imageAlt,
   kpis,
   tools,
@@ -72,7 +74,13 @@ export function ProjectCard({
           <span className="project-card__chrome-title">Report view</span>
         </div>
         <div className="project-card__imageWrap">
-          {imageSrc ? (
+          {imageGrid?.length ? (
+            <div className="project-card__imageGrid" role="group" aria-label={imageAlt}>
+              {imageGrid.map((image) => (
+                <img key={image.src} className="project-card__gridImage" src={image.src} alt={image.alt} loading="lazy" />
+              ))}
+            </div>
+          ) : imageSrc ? (
             <img className="project-card__image" src={imageSrc} alt={imageAlt} loading="lazy" />
           ) : (
             <div className="project-card__placeholder" role="img" aria-label={imageAlt}>

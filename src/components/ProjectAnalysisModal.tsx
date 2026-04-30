@@ -23,6 +23,7 @@ export function ProjectAnalysisModal({ isOpen, onClose, project }: ProjectAnalys
   const titleId = `analysis-modal-title-${project.id}`
   const fullSrc = project.dashboardImageSrc ?? project.imageSrc
   const fullAlt = project.dashboardImageAlt ?? project.imageAlt
+  const imageGrid = project.dashboardImages
   const zoom = ZOOM_LEVELS[zoomIndex]
 
   const cycleZoom = () => {
@@ -128,7 +129,18 @@ export function ProjectAnalysisModal({ isOpen, onClose, project }: ProjectAnalys
                 title="Click to cycle zoom (100% → 150% → 200%)"
                 aria-label="Cycle dashboard zoom level"
               >
-                {fullSrc ? (
+                {imageGrid?.length ? (
+                  <div
+                    className="analysis-modal__imageGrid"
+                    role="group"
+                    aria-label={fullAlt}
+                    style={{ width: `${zoom * 100}%` }}
+                  >
+                    {imageGrid.map((image) => (
+                      <img key={image.src} src={image.src} alt={image.alt} className="analysis-modal__gridImg" />
+                    ))}
+                  </div>
+                ) : fullSrc ? (
                   <img
                     src={fullSrc}
                     alt={fullAlt}

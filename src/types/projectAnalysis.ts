@@ -3,6 +3,11 @@ export type ProjectKpi = {
   value: string
 }
 
+export type ProjectImage = {
+  src: string
+  alt: string
+}
+
 /** Full project payload for the card + analysis modal. */
 export type PortfolioProject = {
   id: string
@@ -26,4 +31,6 @@ export type PortfolioProject = {
   /** Optional larger screenshot; falls back to `imageSrc` when omitted. */
   dashboardImageSrc?: string
   dashboardImageAlt?: string
+  /** Optional screenshot grid; used before single dashboard images. */
+  dashboardImages?: readonly ProjectImage[]
 }

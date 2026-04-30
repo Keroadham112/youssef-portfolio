@@ -2,6 +2,9 @@ import { useState } from 'react'
 import './App.css'
 import profilePhoto from '../yous.jpeg'
 import pharmaDashboardImage from '../WhatsApp Image 2026-04-30 at 2.28.55 AM.jpeg'
+import pharmaThirdImage from '../3.png'
+import pharmaHomeImage from '../home.png'
+import pharmaOverviewImage from '../pharm.png'
 import salesDashboardImage from '../sales.png'
 import { ProjectAnalysisModal } from './components/ProjectAnalysisModal'
 import { ProjectCard } from './components/ProjectCard'
@@ -62,35 +65,40 @@ function App() {
     },
     {
       id: 'pharma-pbi',
-      title: 'Pharmaceutical Data Analysis',
+      title: 'Pharmaceutical Sales Analysis Dashboard',
       subtitle:
-        'Built a unified healthcare analytics layer across hospital sources to standardize operational reporting. 10+ Hospitals • 50K+ Records • 20+ Measures',
+        'Power BI dashboard combining POS and IS distributor sales files into a refresh-ready analytics model.',
       description:
-        'Built a governed Power BI reporting system that consolidated visit, patient-mix, and diagnosis-cost signals into one decision-ready view.',
-      imageAlt: 'Healthcare operations dashboard preview',
+        'Collected monthly pharmaceutical sales files from POS and IS, cleaned data inconsistencies, and built interactive dashboards for sales, returns, customer, product, and geography analysis.',
+      imageAlt: 'Pharmaceutical sales dashboard preview',
       dashboardImageSrc: pharmaDashboardImage,
       dashboardImageAlt: 'Pharmaceutical analysis dashboard screenshot',
-      kpis: [
-        { label: 'Tables', value: '8' },
-        { label: 'Measures', value: '14' },
-        { label: 'Refresh', value: 'Daily' },
+      dashboardImages: [
+        { src: pharmaHomeImage, alt: 'Pharmaceutical sales home dashboard page' },
+        { src: pharmaOverviewImage, alt: 'Pharmaceutical sales analysis dashboard page' },
+        { src: pharmaThirdImage, alt: 'Pharmaceutical sales third dashboard page' },
       ],
-      tools: ['Power BI', 'DAX'],
+      kpis: [
+        { label: 'Sources', value: '2' },
+        { label: 'Months', value: '3' },
+        { label: 'Dashboards', value: '2' },
+      ],
+      tools: ['Power BI', 'Power Query', 'DAX', 'Star Schema'],
       githubHref: 'https://github.com/youssefalaa12yu-cyber',
       problem:
-        'Hospital operations data was fragmented across departments and file formats, with no unified reporting layer. Teams could not consistently track patient distribution or isolate diagnosis-level cost drivers, which slowed weekly planning and created conflicting interpretations.',
+        'Pharmaceutical sales data was split between two distributors, POS and IS, with separate monthly files for July, August, and September. September also contained Customer ID errors, creating inconsistent customer tracking and unreliable reporting before cleaning.',
       analysisProcess:
-        'Cleaned and standardized multi-source extracts, modeled a star schema in Power BI, and authored reusable DAX measures for visits, cohorts, and diagnosis cost attribution. Delivered an interactive dashboard with consistent filters for hospital, specialty, and period comparisons.',
+        'Used Power Query to append POS and IS monthly files, standardize columns, add a source column, and fix Customer ID errors using Replace Errors and transformations. Built a unified clean fact table, designed a star schema with Customer, Geography, and Items dimensions, then created DAX KPIs including Total Sales, Total Orders, Returns %, Average Order Value, and Total Active Customers.',
       keyInsights: [
-        'Cairo hospital records the highest number of patient visits compared to other hospitals, indicating higher demand concentration',
-        'Elderly patients represent the largest share (~41%) of total visits, highlighting increased pressure on age-related healthcare services',
-        'Cardiovascular and hypertension-related diagnoses drive the highest cost per day, contributing most to total treatment expenses',
-        'Patient visits vary significantly across hospitals, suggesting uneven resource utilization and potential service imbalance',
+        'Compared POS and IS distributor performance to show differences in sales contribution and order behavior',
+        'Identified top-performing regions and products for clearer commercial prioritization',
+        'Analyzed monthly sales trends across July, August, and September to monitor performance movement',
+        'Tracked return rates to highlight where sales quality and fulfillment needed attention',
       ],
       impact: [
-        'Improved reporting clarity through a single, trusted weekly view of visits, distribution, and diagnosis cost.',
-        'Enabled faster, better operational decisions on staffing, capacity allocation, and priority service lines.',
-        'Reduced reporting inconsistencies by replacing disconnected departmental cuts with standardized metric definitions.',
+        'Delivered two interactive dashboards: an overview dashboard for sales performance and a geography dashboard for regional analysis.',
+        'Improved reporting reliability by resolving Customer ID issues before merging the final dataset.',
+        'Created a refresh-ready Power BI model that automatically updates when new distributor data is added.',
       ],
     },
   ]
@@ -275,6 +283,7 @@ function App() {
                 title={p.title}
                 description={p.description}
                 imageSrc={p.imageSrc}
+                imageGrid={p.dashboardImages}
                 imageAlt={p.imageAlt}
                 kpis={p.kpis}
                 tools={p.tools}
