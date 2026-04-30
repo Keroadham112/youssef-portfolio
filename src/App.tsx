@@ -43,7 +43,7 @@ function App() {
         { label: 'Accuracy', value: '97%' },
       ],
       tools: ['Excel', 'Power Query', 'Pivot Tables'],
-      githubHref: 'https://github.com',
+      githubHref: 'https://github.com/youssefalaa12yu-cyber',
       problem:
         'Leadership received inconsistent Excel extracts from regions, with mismatched product keys and week boundaries, so nobody trusted a single source of truth for sales performance.',
       analysisProcess:
@@ -76,7 +76,7 @@ function App() {
         { label: 'Refresh', value: 'Daily' },
       ],
       tools: ['Power BI', 'DAX'],
-      githubHref: 'https://github.com',
+      githubHref: 'https://github.com/youssefalaa12yu-cyber',
       problem:
         'Hospital operations data was fragmented across departments and file formats, with no unified reporting layer. Teams could not consistently track patient distribution or isolate diagnosis-level cost drivers, which slowed weekly planning and created conflicting interpretations.',
       analysisProcess:
